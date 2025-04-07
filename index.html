@@ -1,0 +1,57 @@
+<link rel="stylesheet" href="https://generativeart.online/css/10print.css">
+<body></body>
+<script>
+  
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+let counter = 0
+  
+function createFullString(length) {
+  let newString = ""
+  for (let i = 0; i < length; i++) {
+    newString += Math.random() > 0.5 ? '／' : '＼'
+  }
+  return newString
+}
+  
+// Thanks to https://stackoverflow.com/questions/5484578/how-to-get-document-height-and-width-without-using-jquery
+let blueWidth = Math.max(
+    document.body.scrollWidth,
+    document.body.offsetWidth,
+);
+  
+console.log(blueWidth)
+  
+  
+let numLinesDesired = 5;
+let slashWidth = 30; // Hard coded
+let tokensPerLine = Math.floor(blueWidth / slashWidth)
+let totalTokensNeeded = tokensPerLine*numLinesDesired;
+let fullString = createFullString(totalTokensNeeded)
+
+
+async function displayString(idx) {
+  for (let j = 0; j < idx; j++) {
+    document.body.innerText += fullString[j]
+    await sleep(500 / (2*idx))
+  }
+  await sleep(750)
+  document.body.innerText = ""
+}
+  
+async function showThis () {
+  while (counter < totalTokensNeeded) {
+    await displayString(counter)
+    await sleep(1000)
+    counter += tokensPerLine
+  }
+}
+
+showThis()
+  
+ 
+  
+</script>
